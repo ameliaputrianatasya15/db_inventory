@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
-    <title>Inventory</title>
+    <title>Tambah Jenis Baru</title>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
@@ -44,38 +44,22 @@
     </div>
   </div>
 </nav>
-    <div class="container"></div>
-    <h1>Data Jenis</h1>
-    <table border="1" class="table table-bordered table-striped">
-    <a href="tambah.php" class="btn btn-primary"><i class="fa-solid fa-square-plus"></i>Tambah Jenis Baru</a>
-        <tr>
-            <th>No.</th>
-            <th>ID Jenis</th>
-            <th>Nama Jenis</th>
-            <th>Aksi</th>
-        </tr>
-        <?php
-            include '../../config/koneksi.php';
-            $query = mysqli_query($conn, "SELECT * FROM jenis");
-            $no=1;
-            if(mysqli_num_rows($query)){
-                while($result=mysqli_fetch_assoc($query)){
-                    ?>
-                    <tr>
-                        <td scope="row"><?php echo $no ?></td>
-                        <td><?php echo $result['id_jenis']?></td>
-                        <td><?php echo $result['nama_jenis']?></td>
-                        <td>
-                            <a href="edit.php?id_jenis=<?php echo $result['id_jenis']?>" class="btn btn-warning"><i class="fa-solid fa-pen-to-square"></i>Edit</a>
-                        </td>
-                    </tr>
-                    <?php
-                    $no++;
-                    }
-                } else{
-                    echo "Data kosong";
-                }
-        ?>
-    </table>
+    <div class="container">
+    <h1>Tambah Jenis Baru</h1>
+    <?php
+    $id_jenis=$_GET['id_jenis'];
+    include '../../config/koneksi.php';
+    $query=mysqli_query($conn, "SELECT * FROM jenis WHERE id_jenis='$id_jenis'");
+    $result=mysqli_fetch_array($query);
+    ?>
+    <form action="proses_edit.php?id_jenis=<?php echo $result['id_jenis']?>" method="POST">
+  <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">Nama Jenis</label>
+    <input type="text" class="form-control" value="<?php echo $result['nama_jenis']?>" name="nama_jenis" id="exampleInputEmail1" aria-describedby="emailHelp">
+    <div id="emailHelp" class="form-text"></div>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    </div>
 </body>
 </html>
